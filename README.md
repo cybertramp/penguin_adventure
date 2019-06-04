@@ -5,7 +5,7 @@ Written by Cybertramp(2019.06.05)
 
 이 프로젝트는 웹프로그래밍 과목을 수강하면서 기말과제로 만든 프로젝트 입니다.
 
-![gamescreen](images/ltZef7m.png)
+![gamescreen](https://i.imgur.com/ltZef7m.png)
 
 
 펭귄이 모험을 떠나는 횡스크롤 점프 게임입니다.

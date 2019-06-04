@@ -13,11 +13,43 @@ HTML5의 Canvas 기능을 활용하여 만들었습니다.
 
 구현된 기능
 
+- 펭귄 캐릭터의 움직임 처리
 - score 표시
 - Life 구현
 - 추가 점수 요소 3, 생명 감소 요소 3
 - 효과음 구현
 
-
-
 실행: <https://htmlpreview.github.io/?https://github.com/cybertramp/penguin_adventure/blob/master/index.html>
+
+
+
+### 리소스
+
+- images
+
+    Game Art Guppy LLC
+    http://www.gameartguppy.com
+
+- images/plus
+
+    https://www.spriters-resource.com/
+
+- images/minus
+
+    https://www.spriters-resource.com/
+
+- sounds
+
+    Tetris-Friends
+    https://www.sounds-resource.com/
+
+
+
+### 버전 업데이트
+
+- v1
+    - 펭귄 캐릭터의 움직임 처리
+    - score 표시
+    - Life 구현
+    - 추가 점수 요소 3, 생명 감소 요소 3
+    - 효과음 구현

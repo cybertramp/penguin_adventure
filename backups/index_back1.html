@@ -1,0 +1,202 @@
+<html>
+    <head>
+        <style>
+            #wrapper{
+                width: 800px;
+                margin: 100px auto;
+            }
+            canvas {
+                border:1px solid #d3d3d3;
+                background-color: #f1f1f1;
+            }
+        </style>
+    </head>
+    <body onload="Main()">
+        <div id="wrapper">
+            <canvas id="canvas" width="800px" height="400px"></canvas>
+        </div>
+    </body>
+    <script>
+        var canvas;
+        var context;
+        var background={
+            width: 800,
+            height: 400,
+            pos_x: 0,
+            pos_y: 0,
+            w: 0,
+            h: 0,
+            repeat_start: 0
+        };
+        var pressed_space = false;
+        var character = {
+            pos_x: 20,
+            pos_y: 300,
+            width: 90,
+            height: 70,
+            moving: 0,
+            gravity: 0.05,
+            gravitySpeed:0,
+            
+            jumping: false
+        };
+        var character_imgdata =new Array(
+                "images/penguin_walk01@2x.png",
+                "images/penguin_walk02@2x.png",
+                "images/penguin_walk03@2x.png",
+                "images/penguin_walk04@2x.png",
+                "images/penguin_jump03@2x.png"
+        );
+        var score=0;
+        var text1 = "Score: ";
+        // menuscreen 0, ingame 1, startgame 2, option 3, dead 4
+        var screen = 0;
+        var interval;
+        function Main(){
+            Draw_first();
+            key_down_space();
+            switch(screen){
+                case 0:     // Start page
+                    interval=setInterval(Draw_Menu,200);
+                    break;
+                case 1:     // Game screen
+                    Draw_game();
+                    interval=setInterval(Update,60);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+            }
+        }
+        function Draw_Menu(){
+            context.font = "48pt Comic Sans MS";
+            context.textAlign="center";
+            context.fillText("Penguin Adventure", 410, 200);
+            context.font = "16pt Comic Sans MS";
+            context.fillText("Press SPACE to start!", 410, 300);
+            if(screen == 1){
+                clearInterval(interval);
+                Main();
+            }
+        }
+        function Draw_first(){
+            canvas = document.getElementById("canvas");
+            context = canvas.getContext("2d");
+            back = new Image();
+            back.src = "images/mountains.png";
+            back_0 = new Image();
+            back_0.src = "images/sky_lightened.png";
+
+            character.img = new Image();
+        }
+        function Update(){
+            context.clearRect(0,0,800,400);
+            Draw_background();
+            Draw_score();
+            Draw_game();
+        }
+        function Draw_game(){
+            Draw_character();
+        }
+        function Draw_character(){
+            character_move();
+        }
+        function character_move(){
+            console.log(character.pos_x,character.pos_y);
+            
+            switch(character.moving){
+                case 0:
+                    character.img.src = character_imgdata[0];
+                    break;
+                case 1:
+                    character.img.src = character_imgdata[1];
+                    break;
+                case 2:
+                    character.img.src = character_imgdata[2];
+                    break;
+                case 3:
+                    character.img.src = character_imgdata[3];
+                    character.moving=0;
+                    break;
+                case 4:
+                    character.img.src = character_imgdata[4];
+            }
+            character.moving++;
+            if(pressed_space == true && character.jumping == false){
+                pressed_space = false;
+                character.jumping = true;
+                character.pos_y -=140;
+                character.moving = 4;
+            }
+            if(character.jumping == true){
+                if(character.pos_y < 300){
+                    character.pos_y += 5;
+                }
+                else{
+                    character.moving=0;
+                    character.jumping = false;
+                }
+            }
+            
+            context.drawImage(
+                character.img,
+                character.pos_x,
+                character.pos_y,
+                character.width,
+                character.height
+            );
+            //window.requestAnimationFrame(character_move);
+        }
+        function Draw_background(){
+            context.drawImage(back_0,0,0,800,400);
+            context.drawImage(back,background.pos_x,background.pos_y,background.width,background.height);
+            context.drawImage(back,background.pos_x+background.width,background.pos_y,background.width,background.height);
+            
+            background.pos_x -= 10;
+            console.log(background.pos_x);
+            if(background.pos_x == -810){
+                background.pos_x = 0;
+                requestAnimationFrame(Draw_background);
+            }
+                
+            
+            
+        }
+        function Draw_score(){
+            score++;
+            context.font = "16pt Comic Sans MS";
+            context.fillStyle ="blue";
+            context.textAlign="center";
+            context.fillText(text1+score, 410, 30);
+        }
+        function key_down_space(){
+            window.addEventListener('keydown', function(e){
+                if(e.keyCode == 32){
+                    switch(screen){
+                        case 0:
+                            screen = 1;
+                            break;
+                        case 1:
+                            pressed_space = true;
+                            break;
+                        
+                    }
+                }
+            });
+        }
+        //window.requestAnimationFrame(character_move);
+        window.requestAnimFrame = (function(){
+            return  window.requestAnimationFrame       || 
+                    window.webkitRequestAnimationFrame || 
+                    window.mozRequestAnimationFrame    || 
+                    window.oRequestAnimationFrame      || 
+                    window.msRequestAnimationFrame     || 
+                    function(/* function */ callback, /* DOMElement */ element){
+                        window.setTimeout(callback, 1000 / 60);
+                    };
+        })();
+    </script>
+</html>

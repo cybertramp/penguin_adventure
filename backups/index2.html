@@ -1,0 +1,142 @@
+<html>
+    <head>
+        <style>
+            #wrapper{
+                width: 800px;
+                margin: 100px auto;
+            }
+            canvas {
+                border:1px solid #d3d3d3;
+                background-color: #f1f1f1;
+            }
+        </style>
+    </head>
+    <body onload="Main()">
+        <div id="wrapper">
+            <canvas id="canvas" width="800px" height="400px"></canvas>
+        </div>
+    </body>
+    <script>
+        var canvas;
+        var context;
+        var interval;
+        var character = {
+            pos_x: 0,
+            pos_y: 300,
+            width: 50,
+            height: 50,
+            moving: 0,
+            gravity: 0.05,
+            gravitySpeed:0
+        };
+        
+        var text1 = "Score: ";
+        var gameArea = new Object;
+        gameArea.canvas = document.getElementById("canvas");
+        gameArea.start = function(){
+            context = this.canvas.getContext("2d");
+            this.interval = setInterval(Update,100);
+        }
+        gameArea.stop = function(){
+            clearInterval(this.interval);
+        }
+        gameArea.clear = function(){
+            this.context.clearRect(0,0,800,400);
+        }
+
+        function Draw_character(){
+            this.type = type;
+            this.width = width;
+            this.height = height;
+            this.x = x;
+            this.y = y;    
+            this.speedX = 0;
+            this.speedY = 0;    
+            this.gravity = 0.05;
+            this.gravitySpeed = 0;
+            this.update = function() {
+                ctx = gameArea.context;
+                ctx.fillStyle = color;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+            this.newPos = function() {
+                this.gravitySpeed += this.gravity;
+                this.x += this.speedX;
+                this.y += this.speedY + this.gravitySpeed;        
+            }
+        }
+
+        function Main(){
+            Draw_character();
+            character.img = new Image();
+        }
+        function Update(){
+            gameArea.clear();
+
+
+        }
+        function Draw_area(){
+            canvas = document.getElementById("canvas");
+            context = canvas.getContext("2d");
+            interval = setInterval(Update,100);
+        }
+
+        function Draw_main(){
+
+        }
+        function Draw_game(){
+            Draw_character();
+        }
+        function Draw_character(){
+            character_move();
+            
+        }
+        function character_move(){
+            console.log(character.pos_x,character.pos_y);
+            context.clearRect(0,character.pos_y,800,400);
+            switch(character.moving){
+                case 0:
+                    character.img.src = "images/penguin_walk01@2x.png";
+                    character.moving++;
+                    break;
+                case 1:
+                    character.img.src = "images/penguin_walk02@2x.png";
+                    character.moving++;
+                    break;
+                case 2:
+                    character.img.src = "images/penguin_walk03@2x.png";
+                    character.moving++;
+                    break;
+                case 3:
+                    character.img.src = "images/penguin_walk04@2x.png";
+                    character.moving=0;
+                    break;
+            }
+            context.drawImage(
+                character.img,
+                0,
+                character.pos_y,
+                50,
+                50
+            );
+            //window.requestAnimationFrame(character_move);
+        }
+        function Draw_background(){
+
+        }
+        function Draw_score(){
+            context.font = "16pt Comic Sans MS";
+            context.fillStyle ="blue";
+            context.textAlign="center";
+            context.fillText(text1, 370, 30);
+        }
+        function key_down_space(){
+            window.addEventListener('keydown', function(e){
+                if(e.keyCode == 32){
+                    character.pos_y -=10;
+                    console.log("pressed");
+                }
+            });
+        }
+    </script>
+</html>
